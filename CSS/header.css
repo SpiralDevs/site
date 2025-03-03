@@ -30,25 +30,25 @@
 
 
 
-.github-link {
+.github-link, .itch-link {
     display: flex;
     align-items: center;
 }
 
-.github-link a {
+.github-link a, .itch-link a {
     display: flex;
     align-items: center;
     text-decoration: none;
     color: #edf0f1;
 }
 
-.github-link img {
+.github-link img, .itch-link img {
     height: 32px;
     width: 32px;
     transition: transform 0.3s, opacity 0.3s;
 }
 
-.github-link img:hover {
+.github-link img:hover, .itch-link img:hover {
     transform: scale(1.15);
     opacity: 0.8;
 }
@@ -150,7 +150,7 @@ header {
         padding: 10px 15px; /* Reduced padding */
     }
 
-    .github-link img {
+    .github-link img, .itch-link img {
         height: 24px; /* Smaller icon size for better fit */
         width: 24px;
     }
@@ -229,7 +229,7 @@ a, button {
         font-size: 1rem;
     }
 
-    .github-link img, .home-icon img {
+    .github-link img, .itch-link img, .home-icon img {
         height: 20px;
         width: 20px;
     }
