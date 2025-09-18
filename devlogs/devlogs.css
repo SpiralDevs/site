@@ -1,0 +1,86 @@
+/* Use CSS Grid for the development logs section */
+#devlogs {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px; /* Increased gap for consistency with portfolio */
+    padding: 40px 20px; /* Matching padding from portfolio */
+    max-width: 1200px; /* Set a max-width similar to portfolio */
+    margin: 0 auto; /* Center the grid */
+}
+
+/* Centered text for development logs section */
+#devlogs-text {
+    text-align: center;
+    margin-top: 20px;
+}
+
+/* Style for log entries */
+.log-container {
+    background-color: #1e1e1e; /* Consistent background color */
+    border-radius: 15px; /* Rounded corners for uniformity */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Shadow effect */
+    transition: transform 0.3s, box-shadow 0.3s; /* Transition effects */
+}
+
+.log-container:hover {
+    transform: translateY(-10px); /* Hover effect */
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2); /* Increased shadow on hover */
+}
+
+/* Style the log entry content */
+.log-entry {
+    color: white; /* Text color */
+    padding: 30px; /* Matching padding from project cards */
+}
+
+/* Style the buttons within log entries */
+.log-entry-buttons {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 20px; /* Increased margin for consistency */
+}
+
+.log-button {
+    padding: 12px; /* Matching button padding */
+    border-radius: 5px;
+    background-color: #0077cc; /* Base blue color */
+    color: white;
+    text-decoration: none;
+    text-align: center;
+    transition: background-color 0.2s, transform 0.2s, box-shadow 0.2s; /* Add transitions */
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2); /* Shadow effect */
+}
+
+.log-button:hover {
+    background-color: #005fa3; /* Darker blue on hover */
+    transform: translateY(-2px); /* Slight upward movement */
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3); /* Increased shadow size on hover */
+}
+
+/* Responsive adjustments */
+/* Responsive adjustments */
+@media (max-width: 600px) {
+    #devlogs {
+        grid-template-columns: 1fr; /* Stack columns on small screens */
+        padding: 20px; /* Adjusted padding for smaller screens */
+        gap: 15px; /* Reduced gap for smaller screens */
+    }
+
+    .log-container {
+        padding: 15px; /* Reduced padding for smaller screens */
+    }
+
+    .log-entry {
+        padding: 15px; /* Further reduced padding for smaller screens */
+    }
+
+    .log-entry-buttons {
+        flex-direction: column; /* Stack buttons vertically on small screens */
+        gap: 10px; /* Reduced gap for smaller screens */
+        margin-top: 15px; /* Adjusted margin for smaller screens */
+    }
+
+    .log-button {
+        padding: 10px; /* Reduced padding for smaller screens */
+    }
+}
