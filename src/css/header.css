@@ -130,29 +130,8 @@ header {
 }
 
 
-/* Active Dot Indicator */
-.active-dot {
-    position: absolute;
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    background-color: transparent;
-    bottom: -10px;
-    left: 50%;
-    transform: translateX(-50%);
-    transition: background-color 0.3s ease;
-}
-
-.active-dot.active {
-    background-color: #4CAF50; /* Green color */
-}
-
-/* Adjust the position of the home dot */
 .home-icon {
     position: relative;
-}
-
-.home-icon .active-dot {
     bottom: -5px;
 }
 
