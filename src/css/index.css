@@ -31,7 +31,6 @@ body {
 h1 {
   font-size: 2.5rem; /* Increased size for impact */
   margin-bottom: 20px;
-  animation: fadeIn 1s ease-in, slideUp 1s ease-out;
   text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
 }
 
@@ -46,7 +45,6 @@ h4, h5 {
 p {
   font-size: 1.25rem; /* Increased size for emphasis */
   line-height: 1.6; /* Improved readability */
-  animation: fadeIn 1.2s ease-in, slideUp 1.2s ease-out;
   text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
 }
 
@@ -67,6 +65,15 @@ p {
 /* Layout */
 main {
   flex: 1;
+}
+
+/* Ensure main fills available space inside the slide wrapper */
+.page-slide-wrapper main {
+  flex: 1 1 auto;
+  display: block;
+}
+.blur-reveal {
+  animation: fadeIn 1.2s ease-in;
 }
 
 .home-body {
@@ -239,101 +246,63 @@ footer .social-links img:hover {
   }
 }
 
-/* Custom Elements */
-.postmedia {
-  position: sticky;
-  top: 0px;
-  padding: 10px 0px;
-}
-
-.divv {
-  display: flex;
-  align-items: center;
-  justify-items: center;
-}
-
-.heartpos {
-  position: absolute;
-  margin-top: 18%;
-  margin-left: -95%;
-}
-
-.postout,
-.postoutj,
-.postoutf,
-.postoutsmol,
-.postoutn {
-  border-radius: 25px;
-  background: grey;
-}
-
-.postout {
-  margin-left: auto;
-  margin-right: auto;
-  padding: 20px;
-  width: 85%;
-}
-
-.postoutj {
-  margin-left: auto;
-  margin-right: auto;
-  padding: 20px;
-  width: 85%;
-  height: 120px;
-}
-
-.postoutf {
-  margin-left: 3%;
-  padding: 20px;
-  width: 94%;
-  height: 94%;
-}
-
-.postoutsmol {
-  width: 97%;
-  height: 94%;
-}
-
-.postoutn {
-  padding: 20px;
-  width: 100%;
-  height: 15%;
-}
-
 /* Animations */
 @keyframes fadeIn {
   from {
     opacity: 0;
-    transform: translateY(20px);
+    transform: translateY(18px) scale(0.997);
+    filter: blur(4px);
+  }
+  60% {
+    opacity: 0.95;
+    transform: translateY(6px) scale(0.999);
+    filter: blur(1px);
   }
   to {
     opacity: 1;
-    transform: translateY(0);
+    transform: translateY(0) scale(1);
+    filter: blur(0);
   }
 }
 
-@keyframes slideUp {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+/* Page slide transition: exit left and enter from right */
+body.page-exit {
+  overflow: hidden;
 }
 
-@keyframes pulse {
-  0% {
-    transform: scale(1);
-    opacity: 1;
-  }
-  50% {
-    transform: scale(1.05);
-    opacity: 0.8;
-  }
-  100% {
-    transform: scale(1);
-    opacity: 1;
-  }
+.page-slide-wrapper {
+  transition: transform 520ms cubic-bezier(.22,.9,.3,1), opacity 420ms ease;
+  will-change: transform, opacity;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh; /* ensure wrapper fills viewport so footer can stick */
 }
+
+/* when exiting, move whole content left and fade */
+body.page-exit .page-slide-wrapper {
+  transform: translateX(-18%) translateZ(0) scale(0.995);
+  opacity: 0.0;
+}
+
+/* directional exits */
+body.page-exit-left .page-slide-wrapper { transform: translateX(-18%) translateZ(0) scale(0.995); }
+body.page-exit-right .page-slide-wrapper { transform: translateX(18%) translateZ(0) scale(0.995); }
+
+/* when entering, start offscreen right */
+body.page-enter .page-slide-wrapper {
+  transform: translateX(6%) translateZ(0);
+  opacity: 0.0;
+}
+
+/* default enter anim (from right -> center)
+   page-enter-left will instead come from left */
+body.page-enter.active .page-slide-wrapper {
+  transform: translateX(0) translateZ(0) scale(1);
+  opacity: 1;
+}
+
+body.page-enter-left .page-slide-wrapper { transform: translateX(-6%) translateZ(0); }
+body.page-enter-right .page-slide-wrapper { transform: translateX(6%) translateZ(0); }
+
+/* when no-enter is set (direct URL loads), avoid animating in */
+body.no-enter .page-slide-wrapper { transition: none; transform: none; opacity: 1; }
