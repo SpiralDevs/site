@@ -73,7 +73,7 @@ main {
   display: block;
 }
 .blur-reveal {
-  animation: fadeIn 1.2s ease-in;
+  animation: fadeIn 420ms cubic-bezier(.22,.9,.3,1);
 }
 
 .home-body {
@@ -84,7 +84,7 @@ main {
   background-color: rgba(34, 34, 34, 0.8);
   border-radius: 15px;
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transition: transform 160ms cubic-bezier(.22,.9,.3,1), box-shadow 160ms ease;
 }
 
 .home-body p {
@@ -271,7 +271,7 @@ body.page-exit {
 }
 
 .page-slide-wrapper {
-  transition: transform 220ms cubic-bezier(.22,.9,.3,1), opacity 120ms ease;
+  transition: transform 160ms cubic-bezier(.22,.9,.3,1), opacity 100ms ease;
   will-change: transform, opacity;
   display: flex;
   flex-direction: column;

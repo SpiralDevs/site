@@ -21,10 +21,10 @@
 			}
 			document.body.appendChild(wrapper);
 		}
-		requestAnimationFrame(()=> requestAnimationFrame(()=>{
-			document.body.classList.add('active');
-			document.body.classList.add('revealed');
-		}));
+			requestAnimationFrame(()=>{
+				document.body.classList.add('active');
+				document.body.classList.add('revealed');
+			});
 	});
 
 	function shouldIntercept(link) {
@@ -53,7 +53,7 @@
 
 		const wrapper = document.querySelector('.page-slide-wrapper');
 		const done = ()=> { location.href = href; };
-		const fallback = setTimeout(done, 680);
+		const fallback = setTimeout(done, 260);
 		if (wrapper) {
 			wrapper.addEventListener('transitionend', function te(ev){
 				if (ev.propertyName === 'transform' || ev.propertyName === 'opacity') {
