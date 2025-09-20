@@ -1,0 +1,75 @@
+{
+    "projects": [
+        {
+            "id": "GoblinModMaker",
+            "title": "Goblin Mod Maker (GMM)",
+            "source": "images/gmm.png",
+            "short_description": "Open-source Python Software to make mods for the indie game Isle Goblin by Kilowatt Games. <br>Easy to use and powerful<br><br>Made by Spiral and Echo",
+            "description": "Open-source Python Software to make mods for the indie game Isle Goblin by Kilowatt Games. <br>Easy to use and powerful<br>New Overhaul update ONW!<br><br>Made by Spiral and Echo",
+            "links": [
+                {
+                    "text": "Itch Link",
+                    "url": "https://echothedeveloper.itch.io/gmm",
+                    "about_section": false
+
+                },
+                {
+                    "text": "Github",
+                    "url": "https://github.com/EchoTheDeveloper/Isle-Goblin-Mod-Maker",
+                    "about_section": false
+                }
+            ]
+        },
+        {
+            "id": "BepInstaller",
+            "title": "BepInstaller",
+            "source": "images/bepinstaller.png",
+            "short_description": "An Open Source BepInEX Installer made from Python<br>Fast, simple, and effective",
+            "description": "An Open Source BepInEX Installer made from Python<br><br>1. Give name of folder or give directory to game<br>2. Select ANY version of BepInEX<br>3. Press Install BepInEX",
+            "links": [
+                {
+                    "text": "Itch Link",
+                    "url": "https://spirallikespc.itch.io/bepinstaller",
+                    "about_section": false
+                },
+                {
+                    "text": "Github",
+                    "url": "https://github.com/SpiralDevs/BepInstaller",
+                    "about_section": false
+                }
+            ]
+        },
+        {
+            "id": "Contagio",
+            "title": "Contagio",
+            "source": "images/contagio.png",
+            "short_description": "A fast paced top-down 2D game made for Pirate Software Game Jam 16<br><br>Made in Godot by Spiral(me), Echo, and RMD Compositions",
+            "description": "A fast paced top-down 2D game where you play as a virus attempting to infect computers and spread the virus as much as you can.<br><br>Made for Pirate Software Game Jam 16 in Godot by Spiral(me), Echo, and RMD Compositions",
+            "links": [
+                {
+                    "text": "Itch Link",
+                    "url": "https://echothedeveloper.itch.io/contagio/",
+                    "about_section": false
+                },
+                {
+                    "text": "Echo's Site",
+                    "url": "https://echothedeveloper.com",
+                    "about_section": true
+                },
+                {
+                    "text": "RMD Copositions's Site",
+                    "url": "https://www.rmdcompositions.com/",
+                    "about_section": true
+                }
+            ]
+        },
+        {
+            "id": "ComingSoon",
+            "title": "Coming soon...",
+            "source": null,
+            "short_description": "???",
+            "description": "???",
+            "links": [ ]
+        }
+    ]
+}
