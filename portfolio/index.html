@@ -52,8 +52,7 @@
         <h1>Portfolio</h1>
     </section>
 
-    <section id="portfolio" class="container">
-    </section>
+    <section id="portfolio" class="container"> <div class="project"> <button class="expand-btn" data-modal="modal-gmm">Learn More</button> <img src="images/gmm.png" alt="Goblin Mod Maker Icon"> <div class="project-content" id="GoblinModMaker"> <h2>Goblin Mod Maker (GMM)</h2> <p>Open-source Python Software to make mods for the indie game Isle Goblin by Kilowatt Games.</p> <p>Easy to use and powerful</p> <br> <p>Made by Spiral and Echo</p> </div> <div class="project-buttons"> <a href="https://echothedeveloper.itch.io/gmm" class="button">Itch Link</a> <a href="https://github.com/EchoTheDeveloper/Isle-Goblin-Mod-Maker" class="button">Github</a> </div> </div> <div id="modal-gmm" class="modal"> <div class="modal-content"> <button class="close-btn">Close</button> <div class="modal-text"> <h2>Goblin Mod Maker (GMM)</h2> <br> <p>Open-source Python Software to make mods for the indie game Isle Goblin by Kilowatt Games.</p> <p>Easy to use and powerful</p> <p>New Overhaul update ONW!</p> <br> <p>Made by Spiral and Echo</p> </div> <div class="project-buttons"> <a href="https://echothedeveloper.itch.io/gmm" class="button">Itch Link</a> <a href="https://github.com/EchoTheDeveloper/Isle-Goblin-Mod-Maker" class="button">Github</a> </div> </div> </div> <div class="project"> <button class="expand-btn" data-modal="modal-bepinstaller">Learn More</button> <img src="images/bepinstaller.png" alt="Project Image"> <div class="project-content" id="BepInstaller"> <h2>BepInstaller</h2> <p>An Open Source BepInEX Installer made from Python</p> <p>Fast, simple, and effective</p> </div> <div class="project-buttons"> <a href="https://spirallikespc.itch.io/bepinstaller" class="button">Itch Link</a> <a href="https://github.com/SpiralDevs/BepInstaller" class="button">Github</a> </div> </div> <div id="modal-bepinstaller" class="modal"> <div class="modal-content"> <button class="close-btn">Close</button> <div class="modal-text"> <h2>BepInstaller</h2> <br> <p>An Open Source BepInEX Installer made from Python</p> <br> <p>1. Give name of folder or give directory to game</p> <p>2. Select ANY version of BepInEX</p> <p>3. Press Install BepInEX</p> </div> <div class="project-buttons"> <a href="https://spirallikespc.itch.io/bepinstaller" class="button">Itch Link</a> <a href="https://github.com/SpiralDevs/BepInstaller" class="button">Github</a> </div> </div> </div> <div class="project"> <button class="expand-btn" data-modal="modal-contagio">Learn More</button> <img src="images/contagio.png" alt="Project Image"> <div class="project-content" id="Contagio"> <h2>Contagio</h2> <p>A fast paced top-down 2D game made for Pirate Software Game Jam 16</p> <br> <p>Made in Godot by Spiral(me), Echo, and RMD Compositions</p> </div> <div class="project-buttons"> <a href="https://echothedeveloper.itch.io/contagio/" class="button">Itch Link</a> </div> </div> <div id="modal-contagio" class="modal"> <div class="modal-content"> <button class="close-btn">Close</button> <div class="modal-text"> <h2>Contagio</h2> <br> <p>A fast paced top-down 2D game where you play as a virus attempting to infect computers and spread the virus as much as you can.</p> <br> <p>Made for Pirate Software Game Jam 16 in Godot by Spiral(me), Echo, and RMD Compisitions</p> </div> <div class="project-buttons"> <a href="https://echothedeveloper.com" class="button">Echo's site</a> <a href="https://www.rmdcompositions.com/" class="button">RMD Compisitions's site</a> </div> </div> </div> <div class="project"> <!-- <img src="" alt="Project Image"> --> <div class="project-content"> <h2>Coming soon...</h2> <p><i>???</i></p> </div> <!-- <div class="project-buttons"> </div> --> </div> </section>
 
     <footer>
         <div class="container">
@@ -111,16 +110,15 @@ function renderProjects(projects) {
         h2.textContent = project.title || '';
         content.appendChild(h2);
 
-        // Render short_description as HTML to preserve <br> (including consecutive <br><br>)
         if (project.short_description) {
             const shortDiv = document.createElement('div');
+            shortDiv.className = "project-content"
             shortDiv.innerHTML = project.short_description;
             content.appendChild(shortDiv);
         }
 
         projectDiv.appendChild(content);
 
-        // Project buttons (only links with about_section === false)
         const buttonsDiv = document.createElement('div');
         buttonsDiv.className = 'project-buttons';
         (project.links || []).filter(l => l.about_section === false).forEach(link => {
