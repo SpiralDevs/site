@@ -79,20 +79,19 @@
         }
 
         function htmlToParagraphs(text) {
-        if (!text) return [];
-        // normalize newlines to <br>
-        let normalized = String(text).replace(/\r\n|\n/g, '<br>');
+            if (!text) return [];
 
-        // make all <br> lowercase and self-closing for consistency
-        normalized = normalized.replace(/<br\s*\/?>/gi, '<br>');
+            let normalized = String(text).replace(/\r\n|\n/g, '<br>');
 
-        // split on two or more consecutive <br> (with optional spaces)
-        const parts = normalized.split(/(?:<br>\s*){2,}/)
-            .map(s => s.trim())
-            .filter(s => s.length > 0);
+            normalized = normalized.replace(/<br\s*\/?>/gi, '<br>');
 
-        return parts;
-    }
+            const parts = normalized.split(/(?:<br>\s*){2,}/)
+                .map(s => s.trim())
+                .filter(s => s.length > 0);
+
+            return parts;
+        }
+
 
 
         function renderProjects(projects) {
@@ -127,12 +126,11 @@
                 h2.textContent = project.title || '';
                 content.appendChild(h2);
 
-                // Render short_description as paragraphs, preserving single <br> inside paragraphs.
                 if (project.short_description) {
                     const parts = htmlToParagraphs(project.short_description);
                     parts.forEach(pHtml => {
                         const p = document.createElement('p');
-                        p.innerHTML = pHtml; // safe for your own content from JSON
+                        p.innerHTML = pHtml;
                         content.appendChild(p);
                     });
                 }
