@@ -111,13 +111,11 @@ function renderProjects(projects) {
         h2.textContent = project.title || '';
         content.appendChild(h2);
 
+        // Render short_description as HTML to preserve <br> (including consecutive <br><br>)
         if (project.short_description) {
-            const parts = createParagraphsFromHtml(project.short_description);
-            parts.forEach(pText => {
-                const p = document.createElement('p');
-                p.innerHTML = pText;
-                content.appendChild(p);
-            });
+            const shortDiv = document.createElement('div');
+            shortDiv.innerHTML = project.short_description;
+            content.appendChild(shortDiv);
         }
 
         projectDiv.appendChild(content);
@@ -161,21 +159,15 @@ function renderProjects(projects) {
             mh2.textContent = project.title || '';
             modalText.appendChild(mh2);
 
+            // Render description as HTML (fallback to short_description) so multiple <br> are preserved
             if (project.description) {
-                const parts = createParagraphsFromHtml(project.description);
-                parts.forEach(pText => {
-                    const p = document.createElement('p');
-                    p.innerHTML = pText;
-                    modalText.appendChild(p);
-                });
+                const descDiv = document.createElement('div');
+                descDiv.innerHTML = project.description;
+                modalText.appendChild(descDiv);
             } else if (project.short_description) {
-                // fallback to short description when there's no full description
-                const parts = createParagraphsFromHtml(project.short_description);
-                parts.forEach(pText => {
-                    const p = document.createElement('p');
-                    p.innerHTML = pText;
-                    modalText.appendChild(p);
-                });
+                const descDiv = document.createElement('div');
+                descDiv.innerHTML = project.short_description;
+                modalText.appendChild(descDiv);
             }
 
             modalContent.appendChild(modalText);
@@ -225,7 +217,6 @@ window.addEventListener('load', function () {
         })
         .then(data => {
             renderProjects(data.projects || []);
-            // if URL hash present, open modal
             const hash = window.location.hash.substring(1);
             if (hash) {
                 const modalId = 'modal-' + hash;
@@ -240,6 +231,5 @@ window.addEventListener('load', function () {
     </script>
 
     <script type="text/javascript" src="../src/js/index.js"></script>
-    <script type="text/javascript" src="portfolio.js"></script>
 </body>
 </html>
