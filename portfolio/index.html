@@ -78,18 +78,22 @@
             history.pushState("", document.title, window.location.pathname);
         }
 
-        // Replace createParagraphsFromHtml with this helper that preserves single <br>
-        // and splits into paragraphs on two-or-more <br> so you can have gaps.
         function htmlToParagraphs(text) {
-            if (!text) return [];
-            // normalize newlines to <br>
-            const normalized = String(text).replace(/\r\n|\n/g, '<br>');
-            // split on two or more <br> (with optional spaces) to create paragraphs
-            const parts = normalized.split(/(?:<br\s*\/?>\s*){2,}/i)
-                .map(s => s.trim())
-                .filter(s => s.length > 0);
-            return parts;
-        }
+        if (!text) return [];
+        // normalize newlines to <br>
+        let normalized = String(text).replace(/\r\n|\n/g, '<br>');
+
+        // make all <br> lowercase and self-closing for consistency
+        normalized = normalized.replace(/<br\s*\/?>/gi, '<br>');
+
+        // split on two or more consecutive <br> (with optional spaces)
+        const parts = normalized.split(/(?:<br>\s*){2,}/)
+            .map(s => s.trim())
+            .filter(s => s.length > 0);
+
+        return parts;
+    }
+
 
         function renderProjects(projects) {
             const container = document.getElementById('portfolio');
