@@ -25,7 +25,7 @@
             "title": "BepInstaller",
             "source": "images/bepinstaller.png",
             "short_description": "An Open Source BepInEX Installer made from Python<br>Fast, simple, and effective",
-            "description": "An Open Source BepInEX Installer made from Python<br><br>1. Give name of folder or give directory to game<br>2. Select ANY version of BepInEX<br>3. Press Install BepInEX",
+            "description": "An Open Source BepInEX Installer made from Python<br><p>1. Give name of folder or give directory to game</p><br>2. Select ANY version of BepInEX<br>3. Press Install BepInEX",
             "links": [
                 {
                     "text": "Itch Link",
@@ -43,7 +43,7 @@
             "id": "Contagio",
             "title": "Contagio",
             "source": "images/contagio.png",
-            "short_description": "A fast paced top-down 2D game made for Pirate Software Game Jam 16<br><br>Made in Godot by Spiral(me), Echo, and RMD Compositions",
+            "short_description": "A fast paced top-down 2D game made for Pirate Software Game Jam 16<br><br><br>Made in Godot by Spiral(me), Echo, and RMD Compositions",
             "description": "A fast paced top-down 2D game where you play as a virus attempting to infect computers and spread the virus as much as you can.<br><br>Made for Pirate Software Game Jam 16 in Godot by Spiral(me), Echo, and RMD Compositions",
             "links": [
                 {
