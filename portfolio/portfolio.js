@@ -1,110 +1,176 @@
-async function loadProjects() {
-    const response = await fetch('projects.json');
-    const data = await response.json();
+function showModal(modalId) {
+    const modal = document.getElementById(modalId);
+    if (!modal) return;
+    modal.style.display = 'block';
+    window.location.hash = modalId.replace('modal-', '');
+}
+
+function closeModal(modal) {
+    if (!modal) return;
+    modal.style.display = 'none';
+    history.pushState("", document.title, window.location.pathname);
+}
+
+function createParagraphsFromHtml(text) {
+    // split on <br> tags and trim segments
+    return text.split(/<br\s*\/?>/i).map(s => s.trim()).filter(s => s.length > 0);
+}
+
+function renderProjects(projects) {
     const container = document.getElementById('portfolio');
+    if (!container) return;
 
-    data.projects.forEach(project => {
-        const safeId = project.id.replace(/\s+/g, '-');
+    projects.forEach(project => {
+        const modalId = 'modal-' + project.id.toLowerCase();
 
+        // Project card
         const projectDiv = document.createElement('div');
         projectDiv.className = 'project';
-        projectDiv.innerHTML = `
-            <button class="expand-btn" data-modal="modal-${safeId}">Learn More</button>
-            ${project.source ? `<img src="${project.source}" alt="${project.name} Image">` : ''}
-            <div class="project-content" id="${safeId}">
-                <h2>${project.name}</h2>
-                <p>${project.short_description}</p>
-            </div>
-            <div class="project-buttons">
-                ${project.links
-                .filter(link => !link.about_section)
-                .map(link => `<a href="${link.url}" class="button">${link.text}</a>`)
-                .join('')
-            }
-            </div>
-        `;
+
+        if (project.source) {
+            const expandBtn = document.createElement('button');
+            expandBtn.className = 'expand-btn';
+            expandBtn.dataset.modal = modalId;
+            expandBtn.textContent = 'Learn More';
+            projectDiv.appendChild(expandBtn);
+
+            const img = document.createElement('img');
+            img.src = project.source;
+            img.alt = project.title || 'Project Image';
+            projectDiv.appendChild(img);
+        }
+
+        const content = document.createElement('div');
+        content.className = 'project-content';
+        if (project.id) content.id = project.id;
+
+        const h2 = document.createElement('h2');
+        h2.textContent = project.title || '';
+        content.appendChild(h2);
+
+        if (project.short_description) {
+            const parts = createParagraphsFromHtml(project.short_description);
+            parts.forEach(pText => {
+                const p = document.createElement('p');
+                p.innerHTML = pText;
+                content.appendChild(p);
+            });
+        }
+
+        projectDiv.appendChild(content);
+
+        // Project buttons (only links with about_section === false)
+        const buttonsDiv = document.createElement('div');
+        buttonsDiv.className = 'project-buttons';
+        (project.links || []).filter(l => l.about_section === false).forEach(link => {
+            const a = document.createElement('a');
+            a.href = link.url;
+            a.className = 'button';
+            a.textContent = link.text;
+            a.target = '_blank';
+            a.rel = 'noopener noreferrer';
+            buttonsDiv.appendChild(a);
+        });
+        // Only append if it has children
+        if (buttonsDiv.children.length) projectDiv.appendChild(buttonsDiv);
 
         container.appendChild(projectDiv);
 
-        // Create modal
-        const modalDiv = document.createElement('div');
-        modalDiv.id = `modal-${safeId}`;
-        modalDiv.className = 'modal';
-        modalDiv.innerHTML = `
-            <div class="modal-content">
-                <button class="close-btn">Close</button>
-                <div class="modal-text">
-                    <h2>${project.name}</h2>
-                    <p>${project.description}</p>
-                </div>
-                <div class="project-buttons">
-                    ${project.links
-                .filter(link => link.about_section)
-                .map(link => `<a href="${link.url}" class="button">${link.text}</a>`)
-                .join('')
+        // Modal (only create if source exists or description exists or links exist)
+        const hasModalContent = (project.description && project.description.trim()) || (project.links && project.links.length);
+        if (project.source || hasModalContent) {
+            const modal = document.createElement('div');
+            modal.className = 'modal';
+            modal.id = modalId;
+
+            const modalContent = document.createElement('div');
+            modalContent.className = 'modal-content';
+
+            const closeBtn = document.createElement('button');
+            closeBtn.className = 'close-btn';
+            closeBtn.textContent = 'Close';
+            modalContent.appendChild(closeBtn);
+
+            const modalText = document.createElement('div');
+            modalText.className = 'modal-text';
+
+            const mh2 = document.createElement('h2');
+            mh2.textContent = project.title || '';
+            modalText.appendChild(mh2);
+
+            if (project.description) {
+                const parts = createParagraphsFromHtml(project.description);
+                parts.forEach(pText => {
+                    const p = document.createElement('p');
+                    p.innerHTML = pText;
+                    modalText.appendChild(p);
+                });
+            } else if (project.short_description) {
+                // fallback to short description when there's no full description
+                const parts = createParagraphsFromHtml(project.short_description);
+                parts.forEach(pText => {
+                    const p = document.createElement('p');
+                    p.innerHTML = pText;
+                    modalText.appendChild(p);
+                });
             }
-                </div>
-            </div>
-        `;
-        document.body.appendChild(modalDiv);
+
+            modalContent.appendChild(modalText);
+
+            // Modal buttons: include about_section === true; if none are true include all links
+            const modalButtonsDiv = document.createElement('div');
+            modalButtonsDiv.className = 'project-buttons';
+            const aboutLinks = (project.links || []).filter(l => l.about_section === true);
+            const linksToShow = aboutLinks.length ? aboutLinks : (project.links || []);
+            linksToShow.forEach(link => {
+                const a = document.createElement('a');
+                a.href = link.url;
+                a.className = 'button';
+                a.textContent = link.text;
+                a.target = '_blank';
+                a.rel = 'noopener noreferrer';
+                modalButtonsDiv.appendChild(a);
+            });
+            if (modalButtonsDiv.children.length) modalContent.appendChild(modalButtonsDiv);
+
+            modal.appendChild(modalContent);
+            document.body.appendChild(modal);
+        }
     });
 
-    // Re-run modal listeners
+    // attach event listeners after DOM is created
     document.querySelectorAll('.expand-btn').forEach(button => {
         button.addEventListener('click', function () {
-            const modal = document.getElementById(this.dataset.modal);
-            if (modal) modal.style.display = 'block';
-            window.location.hash = this.dataset.modal.replace('modal-', '');
+            showModal(this.dataset.modal);
         });
     });
 
     document.querySelectorAll('.close-btn').forEach(button => {
         button.addEventListener('click', function () {
-            this.closest('.modal').style.display = 'none';
-            history.pushState("", document.title, window.location.pathname);
+            // modal is two levels up (modal > modal-content > button)
+            const modal = this.parentElement && this.parentElement.parentElement;
+            closeModal(modal);
         });
     });
-
-    // Open modal if hash exists
-    const hash = window.location.hash.substring(1);
-    if (hash) {
-        const modalId = 'modal-' + hash.replace(/\s+/g, '-');
-        const modal = document.getElementById(modalId);
-        if (modal) modal.style.display = 'block';
-    }
 }
-
-window.addEventListener('DOMContentLoaded', loadProjects);
-
-
-function showModal(modalId) {
-    document.getElementById(modalId).style.display = 'block';
-    window.location.hash = modalId.replace('modal-', '');
-}
-
-function closeModal(modal) {
-    modal.style.display = 'none';
-    history.pushState("", document.title, window.location.pathname);
-}
-document.querySelectorAll('.expand-btn').forEach(button => {
-    button.addEventListener('click', function () {
-        showModal(this.dataset.modal);
-    });
-});
-
-document.querySelectorAll('.close-btn').forEach(button => {
-    button.addEventListener('click', function () {
-        closeModal(this.parentElement.parentElement);
-    });
-});
 
 window.addEventListener('load', function () {
-    const hash = window.location.hash.substring(1);
-    if (hash) {
-        const modalId = 'modal-' + hash;
-        const modal = document.getElementById(modalId);
-        if (modal) {
-            showModal(modalId);
-        }
-    }
+    fetch('projects.json')
+        .then(res => {
+            if (!res.ok) throw new Error('Failed to load projects.json');
+            return res.json();
+        })
+        .then(data => {
+            renderProjects(data.projects || []);
+            // if URL hash present, open modal
+            const hash = window.location.hash.substring(1);
+            if (hash) {
+                const modalId = 'modal-' + hash;
+                const modal = document.getElementById(modalId);
+                if (modal) showModal(modalId);
+            }
+        })
+        .catch(err => {
+            console.error('Error loading projects:', err);
+        });
 });
