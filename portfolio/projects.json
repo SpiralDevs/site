@@ -44,7 +44,7 @@
             "title": "Contagio",
             "source": "images/contagio.png",
             "short_description": "<p>A fast paced top-down 2D game made for Pirate Software Game Jam 16</p><br>Made in Godot by Spiral(me), Echo, and RMD Compositions",
-            "description": "A fast paced top-down 2D game where you play as a virus attempting to infect computers and spread the virus as much as you can.<br><br>Made for Pirate Software Game Jam 16 in Godot by Spiral(me), Echo, and RMD Compositions",
+            "description": "<p>A fast paced top-down 2D game where you play as a virus attempting to infect computers and spread the virus as much as you can.</p><br>Made for Pirate Software Game Jam 16 in Godot by Spiral(me), Echo, and RMD Compositions",
             "links": [
                 {
                     "text": "Itch Link",
