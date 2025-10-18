@@ -1,4 +1,3 @@
-
 function showModal(modalId) {
     const modal = document.getElementById(modalId);
     if (!modal) return;
@@ -34,13 +33,44 @@ function renderProjects(projects) {
     const featured = projects.filter(p => p.tags?.includes("Featured"));
     const regular = projects.filter(p => !p.tags?.includes("Featured"));
 
-    // Helper to make project cards
+    let activeTag = null; // currently selected tag (null = no filter)
+    let featuredHeaderEl = null;
+    let featuredSectionEl = null;
+
+    function applyFilter() {
+        // Show/hide projects based on activeTag
+        const allCards = container.querySelectorAll('.project');
+        allCards.forEach(card => {
+            const tags = (card.dataset.tags || '').split('|').filter(Boolean);
+            if (!activeTag) {
+                card.style.display = ''; // let CSS determine display (flex)
+            } else {
+                card.style.display = tags.includes(activeTag) ? '' : 'none';
+            }
+        });
+
+        // If featured section exists, hide it if none of its project cards are visible
+        if (featuredSectionEl) {
+            const featuredCards = Array.from(featuredSectionEl.querySelectorAll('.project'));
+            const anyVisible = featuredCards.some(c => c.style.display !== 'none');
+            if (!anyVisible) {
+                featuredHeaderEl.style.display = 'none';
+                featuredSectionEl.style.display = 'none';
+            } else {
+                featuredHeaderEl.style.display = '';
+                featuredSectionEl.style.display = '';
+            }
+        }
+    }
+
     function createProjectCard(project) {
         const modalId = 'modal-' + project.id.toLowerCase();
         const projectDiv = document.createElement('div');
         projectDiv.className = 'project';
 
-        // Tag buttons (at top)
+        // store tags on the card for quick lookup (lowercase for consistent matching)
+        projectDiv.dataset.tags = (project.tags || []).map(t => t).join('|');
+
         if (project.tags?.length) {
             const tagContainer = document.createElement('div');
             tagContainer.className = 'tag-container';
@@ -48,7 +78,19 @@ function renderProjects(projects) {
                 const tagBtn = document.createElement('button');
                 tagBtn.className = 'tag-btn';
                 tagBtn.textContent = tag;
-                tagBtn.addEventListener('click', () => filterByTag(tag));
+                tagBtn.addEventListener('click', () => {
+                    // toggle active tag
+                    if (activeTag === tag) {
+                        activeTag = null;
+                    } else {
+                        activeTag = tag;
+                    }
+                    // update visual state of all tag buttons
+                    document.querySelectorAll('.tag-btn').forEach(b => {
+                        b.classList.toggle('active', b.textContent === activeTag);
+                    });
+                    applyFilter();
+                });
                 tagContainer.appendChild(tagBtn);
             });
             projectDiv.appendChild(tagContainer);
@@ -156,17 +198,17 @@ function renderProjects(projects) {
     // Clear container
     container.innerHTML = '';
 
-    // Featured Section
+    // Featured Section (only create if there are featured projects)
     if (featured.length > 0) {
-        const featuredHeader = document.createElement('h2');
-        featuredHeader.textContent = 'Featured Projects';
-        featuredHeader.className = 'section-header';
-        container.appendChild(featuredHeader);
+        featuredHeaderEl = document.createElement('h2');
+        featuredHeaderEl.textContent = 'Featured Projects';
+        featuredHeaderEl.className = 'section-header';
+        container.appendChild(featuredHeaderEl);
 
-        const featuredSection = document.createElement('div');
-        featuredSection.className = 'featured-section';
-        featured.forEach(p => featuredSection.appendChild(createProjectCard(p)));
-        container.appendChild(featuredSection);
+        featuredSectionEl = document.createElement('div');
+        featuredSectionEl.className = 'featured-section';
+        featured.forEach(p => featuredSectionEl.appendChild(createProjectCard(p)));
+        container.appendChild(featuredSectionEl);
     }
 
     // Other Projects Section
@@ -180,7 +222,9 @@ function renderProjects(projects) {
     regular.forEach(p => otherGrid.appendChild(createProjectCard(p)));
     container.appendChild(otherGrid);
 
-    // Event Listeners
+    // remove clear filters button — user requested no clear button
+
+    // Event Listeners for modals
     document.querySelectorAll('.expand-btn').forEach(button => {
         button.addEventListener('click', function () {
             showModal(this.dataset.modal);
@@ -193,14 +237,13 @@ function renderProjects(projects) {
         });
     });
 
-    // Tag filtering
-    window.filterByTag = function (tag) {
-        document.querySelectorAll('.project').forEach(card => {
-            const tags = Array.from(card.querySelectorAll('.tag-btn')).map(b => b.textContent);
-            card.style.display = tags.includes(tag) ? 'flex' : 'none';
-        });
-    };
+    // initial filter state (none)
+    applyFilter();
+
+    // expose filter state function if needed (optional)
+    window.getActivePortfolioFilter = () => activeTag;
 }
+
 
 
 window.addEventListener('load', function () {
