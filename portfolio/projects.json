@@ -6,6 +6,11 @@
             "source": "images/gmm.png",
             "short_description": "Open-source Python Software to make mods for the indie game Isle Goblin by Kilowatt Games. <br>Easy to use and powerful<br><br>Made by Spiral and Echo",
             "description": "<p>Open-source Python Software to make mods for the indie game Isle Goblin by Kilowatt Games.</p><p>Easy to use and powerful</p><p>New Overhaul update ONW!</p><br><p>Made by Spiral and Echo</p>",
+            "tags": [
+                "Featured",
+                "App",
+                "Open Source"
+            ],
             "links": [
                 {
                     "text": "Itch Link",
@@ -26,6 +31,10 @@
             "source": "images/bepinstaller.png",
             "short_description": "An Open Source BepInEX Installer made from Python<br>Fast, simple, and effective",
             "description": "<p>An Open Source BepInEX Installer made from Python</p><br>1. Give name of folder or give directory to game<br>2. Select ANY version of BepInEX<br>3. Press Install BepInEX",
+            "tags": [
+                "App",
+                "Open Source"
+            ],
             "links": [
                 {
                     "text": "Itch Link",
@@ -45,6 +54,12 @@
             "source": "images/contagio.png",
             "short_description": "<p>A fast paced top-down 2D game made for Pirate Software Game Jam 16</p><br>Made in Godot by Spiral(me), Echo, and RMD Compositions",
             "description": "<p>A fast paced top-down 2D game where you play as a virus attempting to infect computers and spread the virus as much as you can.</p><br>Made for Pirate Software Game Jam 16 in Godot by Spiral(me), Echo, and RMD Compositions",
+            "tags": [
+                "Game",
+                "2D",
+                "Godot",
+                "Game Jam"
+            ],
             "links": [
                 {
                     "text": "Itch Link",
