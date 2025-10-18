@@ -34,10 +34,25 @@ function renderProjects(projects) {
     const featured = projects.filter(p => p.tags?.includes("Featured"));
     const regular = projects.filter(p => !p.tags?.includes("Featured"));
 
+    // Helper to make project cards
     function createProjectCard(project) {
         const modalId = 'modal-' + project.id.toLowerCase();
         const projectDiv = document.createElement('div');
         projectDiv.className = 'project';
+
+        // Tag buttons (at top)
+        if (project.tags?.length) {
+            const tagContainer = document.createElement('div');
+            tagContainer.className = 'tag-container';
+            project.tags.forEach(tag => {
+                const tagBtn = document.createElement('button');
+                tagBtn.className = 'tag-btn';
+                tagBtn.textContent = tag;
+                tagBtn.addEventListener('click', () => filterByTag(tag));
+                tagContainer.appendChild(tagBtn);
+            });
+            projectDiv.appendChild(tagContainer);
+        }
 
         if (project.source) {
             const expandBtn = document.createElement('button');
@@ -59,19 +74,6 @@ function renderProjects(projects) {
         const h2 = document.createElement('h2');
         h2.textContent = project.title || '';
         content.appendChild(h2);
-
-        // ✅ Add tag badges
-        if (project.tags?.length) {
-            const tagContainer = document.createElement('div');
-            tagContainer.className = 'tag-container';
-            project.tags.forEach(tag => {
-                const tagEl = document.createElement('span');
-                tagEl.className = 'tag';
-                tagEl.textContent = tag;
-                tagContainer.appendChild(tagEl);
-            });
-            content.appendChild(tagContainer);
-        }
 
         if (project.short_description) {
             const parts = htmlToParagraphs(project.short_description);
@@ -97,6 +99,7 @@ function renderProjects(projects) {
         });
         if (buttonsDiv.children.length) projectDiv.appendChild(buttonsDiv);
 
+        // Modal
         const hasModalContent = (project.description && project.description.trim()) || (project.links && project.links.length);
         if (project.source || hasModalContent) {
             const modal = document.createElement('div');
@@ -150,37 +153,53 @@ function renderProjects(projects) {
         return projectDiv;
     }
 
+    // Clear container
+    container.innerHTML = '';
+
+    // Featured Section
     if (featured.length > 0) {
+        const featuredHeader = document.createElement('h2');
+        featuredHeader.textContent = 'Featured Projects';
+        featuredHeader.className = 'section-header';
+        container.appendChild(featuredHeader);
+
         const featuredSection = document.createElement('div');
         featuredSection.className = 'featured-section';
-
-        const header = document.createElement('h2');
-        header.className = 'featured-header';
-        header.textContent = 'Featured Projects';
-        featuredSection.appendChild(header);
-
-        const grid = document.createElement('div');
-        grid.className = 'featured-grid';
-        featured.forEach(p => grid.appendChild(createProjectCard(p)));
-        featuredSection.appendChild(grid);
-
+        featured.forEach(p => featuredSection.appendChild(createProjectCard(p)));
         container.appendChild(featuredSection);
     }
 
-    regular.forEach(p => container.appendChild(createProjectCard(p)));
+    // Other Projects Section
+    const otherHeader = document.createElement('h2');
+    otherHeader.textContent = 'Other Projects';
+    otherHeader.className = 'section-header';
+    container.appendChild(otherHeader);
 
+    const otherGrid = document.createElement('div');
+    otherGrid.className = 'other-grid';
+    regular.forEach(p => otherGrid.appendChild(createProjectCard(p)));
+    container.appendChild(otherGrid);
+
+    // Event Listeners
     document.querySelectorAll('.expand-btn').forEach(button => {
         button.addEventListener('click', function () {
             showModal(this.dataset.modal);
         });
     });
-
     document.querySelectorAll('.close-btn').forEach(button => {
         button.addEventListener('click', function () {
             const modal = this.closest('.modal');
             closeModal(modal);
         });
     });
+
+    // Tag filtering
+    window.filterByTag = function (tag) {
+        document.querySelectorAll('.project').forEach(card => {
+            const tags = Array.from(card.querySelectorAll('.tag-btn')).map(b => b.textContent);
+            card.style.display = tags.includes(tag) ? 'flex' : 'none';
+        });
+    };
 }
 
 
