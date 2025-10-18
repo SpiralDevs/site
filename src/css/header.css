@@ -39,6 +39,8 @@ a, button {
     object-position: left center;
     transform-origin: left center; 
     image-rendering: pixelated;
+    image-rendering: -moz-crisp-edges;
+    image-rendering: crisp-edges;
     transition: transform 0.3s ease, filter 0.3s ease;
 }
 
